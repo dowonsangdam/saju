@@ -7,46 +7,78 @@
     <link rel="icon" href="https://raw.githubusercontent.com/dowonsangdam/saju/main/icon.png">
     <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/dowonsangdam/saju/main/icon.png">
     <style>
-        /* 1. 배경 및 폰트: 선생님이 좋아하신 부드러운 파스텔톤 배경 */
-        body { font-family: 'Pretendard', -apple-system, sans-serif; background: #f5f7fa; margin: 0; padding: 20px; color: #334155; min-height: 100vh; }
-        .container { max-width: 450px; margin: 0 auto; background: white; padding: 30px 20px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        /* 1. 타로 카드 느낌의 신비로운 배경 (심해 남색 + 금빛 포인트) */
+        body { 
+            font-family: 'Pretendard', sans-serif; 
+            background: radial-gradient(circle at center, #1a237e 0%, #0d1117 100%); 
+            margin: 0; padding: 20px; color: #e0e0e0; min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .container { 
+            max-width: 450px; width: 100%; background: rgba(255, 255, 255, 0.05); 
+            padding: 30px 20px; border-radius: 30px; 
+            backdrop-filter: blur(10px); border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
         
-        /* 2. 타이틀: 도원상담소(천진암) 명칭 강조 */
-        h1 { text-align: center; color: #1e3a8a; font-size: 26px; margin-bottom: 25px; font-weight: 800; border-bottom: 3px solid #e2e8f0; padding-bottom: 15px; }
-        .guide { text-align: center; font-size: 14px; color: #64748b; margin-bottom: 25px; line-height: 1.6; }
+        /* 2. 타이틀: 황금빛 별과 로고 */
+        h1 { 
+            text-align: center; color: #d4af37; font-size: 26px; margin-bottom: 10px; 
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5); font-weight: 800;
+        }
+        .subtitle { text-align: center; color: #aaa; font-size: 14px; margin-bottom: 30px; }
         
-        /* 3. 사주 선택: 깔끔하고 전문적인 표 형태 */
-        .saju-table { width: 100%; border-spacing: 6px; margin-bottom: 25px; }
-        .saju-table th { background: #f8fafc; color: #64748b; padding: 8px; border-radius: 8px; font-size: 13px; font-weight: 600; }
+        /* 3. 사주 선택 영역 (고급스러운 카드 느낌) */
+        .saju-selector { width: 100%; border-collapse: separate; border-spacing: 5px; margin-bottom: 25px; }
+        .saju-selector th { color: #d4af37; font-size: 12px; padding-bottom: 8px; font-weight: normal; }
         
-        select { width: 100%; padding: 14px 5px; border: 2px solid #f1f5f9; border-radius: 12px; font-size: 17px; font-weight: 700; cursor: pointer; background: #fff; text-align: center; transition: all 0.3s; }
-        select:focus { border-color: #1e3a8a; outline: none; background: #f8fafc; }
-        .gan-select { color: #ef4444; } /* 천간: 빨강 */
-        .ji-select { color: #10b981; }  /* 지지: 초록 */
+        select { 
+            width: 100%; padding: 12px 2px; border: 1px solid rgba(212, 175, 55, 0.4); 
+            border-radius: 12px; font-size: 17px; font-weight: bold; cursor: pointer; 
+            background: rgba(13, 17, 23, 0.8); color: #fff; text-align: center; transition: 0.3s;
+        }
+        select:focus { border-color: #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); outline: none; }
+        .gan-select { color: #ff6b6b; } /* 천간: 부드러운 레드 */
+        .ji-select { color: #51cf66; }  /* 지지: 부드러운 그린 */
 
-        button { width: 100%; padding: 18px; background: #1e3a8a; color: white; border: none; border-radius: 15px; font-size: 19px; font-weight: 700; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2); }
-        button:active { transform: scale(0.97); }
+        button { 
+            width: 100%; padding: 18px; background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%); 
+            color: #0d1117; border: none; border-radius: 15px; font-size: 18px; font-weight: bold; 
+            cursor: pointer; transition: 0.3s; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
+            margin-top: 10px;
+        }
+        button:active { transform: scale(0.98); }
         
-        /* 4. 결과 창: 달력 그림을 절대 불러올 수 없는 구조 */
-        .result-box { margin-top: 35px; display: none; }
-        .card { background: #fff; padding: 22px; border-radius: 20px; margin-bottom: 18px; border: 1px solid #f1f5f9; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+        /* 4. 결과 리포트 (타로 카드 뒷면처럼 우아한 디자인) */
+        .result-box { margin-top: 40px; display: none; width: 100%; }
+        .result-card { 
+            background: rgba(255, 255, 255, 0.08); padding: 25px; border-radius: 20px; 
+            margin-bottom: 20px; border: 1px solid rgba(212, 175, 55, 0.2);
+            position: relative; overflow: hidden;
+        }
+        /* 별 장식 */
+        .result-card::before {
+            content: "★"; position: absolute; top: 10px; right: 15px; 
+            color: rgba(212, 175, 55, 0.2); font-size: 20px;
+        }
         
-        /* [중요] 아이콘 대신 텍스트 기호만 사용함 */
-        .card h3 { margin: 0 0 12px 0; font-size: 18px; color: #1e3a8a; display: flex; align-items: center; border-bottom: 1px dashed #e2e8f0; padding-bottom: 8px; }
-        .card h3::before { content: "●"; font-size: 12px; margin-right: 8px; color: #3b82f6; } /* 동그란 기호로 대체 */
-        .card p { margin: 0; line-height: 1.8; color: #475569; font-size: 15px; text-align: justify; }
+        .result-card h3 { margin: 0 0 15px 0; font-size: 18px; color: #d4af37; font-weight: 700; }
+        .result-card p { margin: 0; line-height: 1.8; color: #ddd; font-size: 15px; word-break: keep-all; }
         
-        .footer { text-align: center; margin-top: 40px; font-size: 13px; color: #94a3b8; border-top: 1px solid #f1f5f9; padding-top: 25px; }
-        .footer strong { color: #1e3a8a; }
+        .footer { 
+            text-align: center; margin-top: 40px; font-size: 13px; color: #777; 
+            border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 25px; 
+        }
+        .footer strong { color: #d4af37; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h1>도원상담소(천진암)</h1>
-    <div class="guide">나의 사주 팔자(여덟 글자)를 선택해 주세요.</div>
+    <div class="subtitle">우주의 기운을 담은 여덟 글자를 선택하세요</div>
     
-    <table class="saju-table">
+    <table class="saju-selector">
         <tr><th>시주</th><th>일주</th><th>월주</th><th>년주</th></tr>
         <tr>
             <td><select id="siGan" class="gan-select"></select></td>
@@ -62,23 +94,23 @@
         </tr>
     </table>
 
-    <button onclick="showResult()">AI 명리 분석하기</button>
+    <button onclick="showAnalysis()">AI 운명의 지도 펼치기</button>
 
     <div id="result" class="result-box">
-        <div class="card">
-            <h3>타고난 기질</h3>
-            <p>선택하신 일간을 중심으로 분석한 결과, 외유내강의 기질이 뚜렷하며 통찰력이 매우 깊습니다. 주변 사람들에게 신뢰를 주는 묵직한 힘이 있으며, 자기 주관이 명확하여 리더로서의 자질을 충분히 갖추고 있습니다.</p>
+        <div class="result-card">
+            <h3>타고난 기질과 성품</h3>
+            <p>당신의 영혼은 깊은 통찰력과 부드러운 포용력을 품고 있습니다. 겉으로는 온화해 보이나 내면에는 흔들리지 않는 신념의 기운이 서려 있어, 삶의 파도 속에서도 중심을 잃지 않는 리더의 기질을 타고나셨습니다.</p>
         </div>
-        <div class="card">
-            <h3>재물 및 사회운</h3>
-            <p>재물운의 뿌리가 깊어 중년 이후 안정적인 결실을 맺는 대기만성형 흐름입니다. 특히 전문적인 지식을 활용하거나 사람의 마음을 어루만지는 상담/교육 분야에서 큰 명성을 얻을 운세입니다.</p>
+        <div class="result-card">
+            <h3>재물과 사회적 흐름</h3>
+            <p>황금빛 기운이 땅속 깊이 뿌리를 내리고 있는 형국입니다. 서두르지 않고 성실히 덕을 쌓는다면, 중년 이후 명예와 재물이 스스로 찾아와 문을 두드리는 대기만성형의 복록을 누리게 될 것입니다.</p>
         </div>
-        <div class="card">
-            <h3>2026년(丙午年) 총운</h3>
-            <p>병오년은 변화와 확장의 기운이 강하게 작용하는 해입니다. 상반기에 계획한 일이 하반기에 큰 성과로 이어지는 흐름이니, 조급함을 버리고 내실을 다진다면 기대 이상의 결실을 얻게 될 것입니다.</p>
+        <div class="result-card">
+            <h3>2026년(丙午年)의 약속</h3>
+            <p>병오년의 붉은 기운이 당신의 길을 비추고 있습니다. 올해는 새로운 변화를 두려워하지 말고 과감히 발을 내디딜 때입니다. 인내의 끝에서 당신이 원하던 큰 결실이 기다리고 있을 것입니다.</p>
         </div>
         <div class="footer">
-            더 상세한 운명의 실타래는<br><strong>도원상담소(천진암)</strong>에서 직접 풀어보세요.
+            상세한 상담은 <strong>도원상담소(천진암)</strong>를 방문해 주세요.
         </div>
     </div>
 </div>
@@ -87,15 +119,20 @@
     const gans = ["甲(갑)", "乙(을)", "丙(병)", "丁(정)", "戊(무)", "己(기)", "庚(경)", "辛(신)", "壬(임)", "癸(계)"];
     const jis = ["子(자)", "丑(축)", "寅(인)", "卯(묘)", "辰(진)", "巳(사)", "午(오)", "未(미)", "申(신)", "酉(유)", "戌(술)", "亥(해)"];
 
-    function fill(id, arr) {
+    function fillOptions(id, array) {
         const el = document.getElementById(id);
-        arr.forEach(i => { const o = document.createElement("option"); o.value = i; o.text = i; el.add(o); });
+        array.forEach(item => {
+            const opt = document.createElement("option");
+            opt.value = item;
+            opt.text = item;
+            el.add(opt);
+        });
     }
 
-    ["siGan", "ilGan", "wolGan", "nyeonGan"].forEach(id => fill(id, gans));
-    ["siJi", "ilJi", "wolJi", "nyeonJi"].forEach(id => fill(id, jis));
+    ["siGan", "ilGan", "wolGan", "nyeonGan"].forEach(id => fillOptions(id, gans));
+    ["siJi", "ilJi", "wolJi", "nyeonJi"].forEach(id => fillOptions(id, jis));
 
-    function showResult() {
+    function showAnalysis() {
         document.getElementById('result').style.display = 'block';
         window.scrollTo({ top: document.getElementById('result').offsetTop, behavior: 'smooth' });
     }
