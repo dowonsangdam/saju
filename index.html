@@ -9,32 +9,33 @@
     <style>
         body { font-family: 'Pretendard', sans-serif; background-color: #f0f2f5; margin: 0; padding: 15px; color: #222; }
         .container { max-width: 500px; margin: 0 auto; background: white; padding: 25px 15px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-        h1 { text-align: center; color: #1a237e; font-size: 22px; margin-bottom: 20px; }
-        .guide-text { text-align: center; font-size: 14px; color: #666; margin-bottom: 20px; background: #e8eaf6; padding: 10px; border-radius: 10px; }
+        h1 { text-align: center; color: #1a237e; font-size: 22px; margin-bottom: 20px; border-bottom: 2px solid #1a237e; padding-bottom: 10px; }
+        .guide-text { text-align: center; font-size: 14px; color: #666; margin-bottom: 20px; background: #e8eaf6; padding: 12px; border-radius: 10px; line-height: 1.5; }
         
         /* 사주 팔자 선택 영역 */
-        .saju-selector { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        .saju-selector th { background: #1a237e; color: white; padding: 10px 5px; font-size: 13px; width: 25%; }
-        .saju-selector td { border: 1px solid #ddd; padding: 10px 5px; text-align: center; }
+        .saju-selector { width: 100%; border-collapse: collapse; margin-bottom: 25px; }
+        .saju-selector th { background: #1a237e; color: white; padding: 10px 5px; font-size: 13px; width: 25%; border: 1px solid #1a237e; }
+        .saju-selector td { border: 1px solid #ddd; padding: 12px 5px; text-align: center; }
         
-        select { width: 90%; padding: 8px 2px; border: 1px solid #1a237e; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; background-color: #fff; }
-        .gan-select { color: #d32f2f; border-color: #d32f2f; } /* 천간: 빨간색 */
-        .ji-select { color: #388e3c; border-color: #388e3c; }  /* 지지: 초록색 */
+        select { width: 92%; padding: 10px 2px; border: 1px solid #1a237e; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; background-color: #fff; text-align: center; }
+        .gan-select { color: #d32f2f; border-color: #d32f2f; }
+        .ji-select { color: #388e3c; border-color: #388e3c; }
 
-        button { width: 100%; padding: 16px; background: #1a237e; color: white; border: none; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        button { width: 100%; padding: 16px; background: #1a237e; color: white; border: none; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         
         .result-box { margin-top: 30px; display: none; }
-        .result-item { background: #f8f9fa; padding: 15px; border-radius: 15px; margin-bottom: 15px; border-left: 6px solid #1a237e; line-height: 1.8; }
-        .result-item h3 { margin: 0 0 10px 0; font-size: 16px; color: #1a237e; }
+        .result-item { background: #fdfdfd; padding: 20px; border-radius: 15px; margin-bottom: 15px; border: 1px solid #eee; border-left: 6px solid #1a237e; line-height: 1.8; }
+        .result-item h3 { margin: 0 0 12px 0; font-size: 17px; color: #1a237e; display: flex; align-items: center; }
+        .result-item h3 span { margin-right: 8px; } /* 아이콘 대신 쓸 기호 간격 */
         
-        .footer { text-align: center; margin-top: 30px; font-size: 13px; color: #888; border-top: 1px solid #eee; padding-top: 20px; }
+        .footer { text-align: center; margin-top: 30px; font-size: 13px; color: #888; border-top: 1px solid #eee; padding-top: 20px; line-height: 1.6; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>도원상담소(천진암) AI 사주</h1>
-    <p class="guide-text">본인의 사주 팔자를 아래 표에서 직접 선택하신 후 <br><strong>[분석 결과 보기]</strong> 버튼을 눌러주세요.</p>
+    <h1>도원상담소(천진암) AI 명리</h1>
+    <p class="guide-text">본인의 <strong>사주(간지)</strong>를 직접 선택하신 후<br>아래 버튼을 눌러 상세 분석을 확인하세요.</p>
     
     <table class="saju-selector">
         <tr><th>시주(時)</th><th>일주(日)</th><th>월주(月)</th><th>년주(年)</th></tr>
@@ -52,23 +53,24 @@
         </tr>
     </table>
 
-    <button onclick="showAnalysis()">AI 사주 분석 결과 보기</button>
+    <button onclick="showAnalysis()">명리 분석 결과 보기</button>
 
     <div id="result" class="result-box">
         <div class="result-item">
-            <h3>👤 타고난 성격 및 기질</h3>
-            <p>선택하신 일간을 중심으로 분석한 결과, 외유내강의 기질이 강하며 주관이 뚜렷하십니다. 타인을 배려하면서도 본인의 실리를 놓치지 않는 지혜로운 성품입니다.</p>
+            <h3><span>👤</span> 타고난 성격 및 기질</h3>
+            <p>전체적인 오행의 흐름을 살필 때, 외유내강의 기질이 뚜렷하며 통찰력이 뛰어납니다. 타인에게 신뢰를 주는 묵직한 힘이 있으며, 자기 주관이 명확하여 리더로서의 자질을 갖추고 있습니다.</p>
         </div>
         <div class="result-item">
-            <h3>💰 재물운과 사회적 성취</h3>
-            <p>재물 기운이 안정적으로 흐르고 있습니다. 특히 중년 이후 본인의 전문 분야에서 독보적인 위치에 올라 큰 결실을 맺을 운세입니다. 상담이나 교육 등 사람을 상대하는 업이 길합니다.</p>
+            <h3><span>💰</span> 재물운과 사회적 성취</h3>
+            <p>재물운의 뿌리가 깊어 중년 이후 안정적인 결실을 맺는 대기만성형 사주입니다. 특히 전문적인 지식을 활용하거나 사람의 마음을 어루만지는 상담/교육 분야에서 큰 명성을 얻을 운세입니다.</p>
         </div>
         <div class="result-item">
-            <h3>📅 2026년 금년 운세</h3>
-            <p>올해 병오년은 본인에게 변화와 성장의 기운이 함께 들어오는 해입니다. 상반기에 뿌린 씨앗이 하반기에 풍성한 결실로 돌아오니 꾸준한 노력이 필요한 시기입니다.</p>
+            <h3><span>⭐</span> 2026년(丙午年) 금년 운세</h3>
+            <p>2026년 병오년은 본인에게 변화와 확장의 기운이 강하게 작용하는 해입니다. 상반기에 계획한 일이 하반기에 큰 성과로 이어지니, 조급함을 버리고 내실을 다진다면 기대 이상의 결실을 얻게 될 것입니다.</p>
         </div>
         <div class="footer">
-            더 자세한 개별 상담은 <strong>도원상담소(천진암)</strong>를 찾아주세요.
+            본 분석은 AI 기술을 활용한 참고용 리포트입니다.<br>
+            <strong>더 상세한 운명의 실타래는 도원상담소(천진암)에서 직접 풀어보세요.</strong>
         </div>
     </div>
 </div>
