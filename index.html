@@ -3,135 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>도원상담소(천진암) - AI 종합 사주 리포트</title>
+    <title>도원상담소 AI 사주 리포트</title>
+    <link rel="icon" href="https://raw.githubusercontent.com/dowonsangdam/saju/main/icon.png">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/dowonsangdam/saju/main/icon.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    
     <style>
-        :root { --wood: #27ae60; --fire: #e74c3c; --earth: #f1c40f; --metal: #7f8c8d; --water: #2c3e50; --bg: #f0f2f5; --gold: #d4af37; }
-        body { font-family: 'Apple SD Gothic Neo', sans-serif; background-color: var(--bg); display: flex; justify-content: center; padding: 20px; margin: 0; }
-        .container { background: white; padding: 30px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 100%; max-width: 500px; }
-        h2 { text-align: center; color: #1a1a1a; margin-bottom: 5px; letter-spacing: -1px; }
-        p.desc { text-align: center; color: #777; font-size: 13px; margin-bottom: 25px; }
-        
-        .saju-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 25px; }
-        .column { text-align: center; }
-        .column label { display: block; font-size: 11px; font-weight: bold; color: #999; margin-bottom: 6px; }
-        select { width: 100%; padding: 12px 0; border: 1.5px solid #eee; border-radius: 10px; font-size: 16px; text-align: center; background: #fafafa; cursor: pointer; }
-
-        .btn-run { width: 100%; padding: 18px; background: #1a1a1a; color: white; border: none; border-radius: 15px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        .btn-run:hover { background: var(--fire); transform: translateY(-2px); }
-
-        #resultView { display: none; margin-top: 40px; border-top: 2px solid #f0f0f0; padding-top: 30px; animation: fadeIn 0.6s ease-out; }
-        .hanza-box { display: flex; justify-content: space-around; margin-bottom: 30px; background: #fdfdfd; padding: 15px; border-radius: 15px; border: 1px solid #f0f0f0; }
-        .hanza-item { text-align: center; }
-        .hanza-item div { font-size: 22px; font-weight: bold; margin-top: 5px; }
-        
-        .card { background: #fff; border-radius: 18px; padding: 20px; border: 1px solid #f0f0f0; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
-        .card-title { font-size: 17px; font-weight: bold; color: var(--fire); margin-bottom: 12px; display: flex; align-items: center; }
-        .card-title::before { content: '●'; margin-right: 8px; font-size: 12px; vertical-align: middle; }
-        .card-text { font-size: 15px; line-height: 1.8; color: #444; margin: 0; text-align: justify; white-space: pre-wrap; }
-        
-        .today-card { border-left: 6px solid var(--gold); background: #fffef2; border-top: 1px solid #f0e68c; }
-        .today-card .card-title { color: #b8860b; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        body { font-family: 'Pretendard', -apple-system, sans-serif; background-color: #f8f9fa; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 500px; margin: 0 auto; background: white; padding: 30px 20px; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #1a237e; font-size: 26px; margin-bottom: 30px; letter-spacing: -1px; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 10px; font-weight: 600; font-size: 15px; color: #555; }
+        input, select { width: 100%; padding: 14px; border: 1px solid #e0e0e0; border-radius: 12px; box-sizing: border-box; font-size: 16px; transition: border 0.3s; }
+        input:focus { border-color: #1a237e; outline: none; }
+        button { width: 100%; padding: 16px; background: #1a237e; color: white; border: none; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 10px rgba(26, 35, 126, 0.2); }
+        .result-box { margin-top: 35px; display: none; }
+        .result-title { font-size: 20px; font-weight: bold; color: #1a237e; margin-bottom: 20px; text-align: center; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
+        .result-item { background: #fdfdfd; padding: 20px; border-radius: 16px; margin-bottom: 20px; border: 1px solid #f0f0f0; line-height: 1.8; }
+        .result-item h3 { margin-top: 0; color: #3949ab; font-size: 17px; margin-bottom: 10px; }
+        .footer { text-align: center; margin-top: 40px; font-size: 13px; color: #999; line-height: 1.5; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>🔮 도원상담소(천진암) AI 리포트</h2>
-    <p class="desc">정통 명리학을 기반으로 한 1:1 맞춤형 운세 분석</p>
+    <h1>도원상담소 AI 사주 리포트</h1>
     
-    <div class="saju-grid">
-        <div class="column"><label>시주</label>
-            <select id="sG"><option>戊</option><option>己</option><option>庚</option><option>辛</option><option>壬</option><option>癸</option><option>甲</option><option>乙</option><option>丙</option><option>丁</option></select>
-            <select id="sZ" style="margin-top:5px;"><option>子</option><option>丑</option><option>寅</option><option>卯</option><option>辰</option><option>巳</option><option>午</option><option>未</option><option>申</option><option>酉</option><option>戌</option><option>亥</option></select>
+    <div class="input-group">
+        <label>생년월일</label>
+        <input type="date" id="birthDate">
+    </div>
+    
+    <div class="input-group">
+        <label>태어난 시간 (선택)</label>
+        <select id="birthTime">
+            <option value="unknown">모름/정확하지 않음</option>
+            <option value="0">자시 (23:30~01:29)</option>
+            <option value="1">축시 (01:30~03:29)</option>
+            <option value="2">인시 (03:30~05:29)</option>
+            <option value="3">묘시 (05:30~07:29)</option>
+            <option value="4">진시 (07:30~09:29)</option>
+            <option value="5">사시 (09:30~11:29)</option>
+            <option value="6">오시 (11:30~13:29)</option>
+            <option value="7">미시 (13:30~15:29)</option>
+            <option value="8">신시 (15:30~17:29)</option>
+            <option value="9">유시 (17:30~19:29)</option>
+            <option value="10">술시 (19:30~21:29)</option>
+            <option value="11">해시 (21:30~23:29)</option>
+        </select>
+    </div>
+
+    <button onclick="analyzeSaju()">분석 결과 보기</button>
+
+    <div id="result" class="result-box">
+        <div class="result-title">사주 분석 결과</div>
+        
+        <div class="result-item">
+            <h3>👤 타고난 성격과 기운</h3>
+            <p id="characterResult"></p>
         </div>
-        <div class="column"><label>일주</label>
-            <select id="dG"><option>戊</option><option>己</option><option>庚</option><option>辛</option><option>壬</option><option>癸</option><option>甲</option><option>乙</option><option>丙</option><option>丁</option></select>
-            <select id="dZ" style="margin-top:5px;"><option>子</option><option>丑</option><option>寅</option><option>卯</option><option>辰</option><option>巳</option><option>午</option><option>未</option><option>申</option><option>酉</option><option>戌</option><option>亥</option></select>
+        
+        <div class="result-item">
+            <h3>💰 재물 및 직업운</h3>
+            <p id="jobResult"></p>
         </div>
-        <div class="column"><label>월주</label>
-            <select id="mG"><option>庚</option><option>辛</option><option>壬</option><option>癸</option><option>甲</option><option>乙</option><option>丙</option><option>丁</option><option>戊</option><option>己</option></select>
-            <select id="mZ" style="margin-top:5px;"><option>子</option><option>丑</option><option>寅</option><option>卯</option><option>辰</option><option>巳</option><option>午</option><option>未</option><option>申</option><option>酉</option><option>戌</option><option>亥</option></select>
-        </div>
-        <div class="column"><label>년주</label>
-            <select id="yG"><option>丙</option><option>丁</option><option>戊</option><option>己</option><option>庚</option><option>辛</option><option>壬</option><option>癸</option><option>甲</option><option>乙</option></select>
-            <select id="yZ" style="margin-top:5px;"><option>午</option><option>未</option><option>申</option><option>酉</option><option>戌</option><option>亥</option><option>子</option><option>丑</option><option>寅</option><option>卯</option><option>辰</option><option>巳</option></select>
+
+        <div class="result-item">
+            <h3>🍀 2026년 흐름</h3>
+            <p id="yearResult">올해는 새로운 변화의 기운이 강하게 들어오는 시기입니다. 차분하게 계획했던 일을 추진하면 하반기에 좋은 결실을 맺을 수 있는 운세입니다.</p>
         </div>
     </div>
 
-    <button class="btn-run" onclick="runAnalysis()">나의 운세 리포트 생성하기</button>
-
-    <div id="resultView">
-        <div class="hanza-box" id="hanzaDisplay"></div>
-        <div class="card"><div class="card-title">성격 및 심리 기질</div><p id="txt-p" class="card-text"></p></div>
-        <div class="card"><div class="card-title">직업운 및 적성 분석</div><p id="txt-j" class="card-text"></p></div>
-        <div class="card"><div class="card-title">재물운 및 애정 흐름</div><p id="txt-l" class="card-text"></p></div>
-        <div class="card" style="border-top: 4px solid var(--fire);"><div class="card-title">2026 병오년(丙午年) 신년운세</div><p id="txt-t" class="card-text"></p></div>
-        <div class="card today-card"><div class="card-title">📅 오늘의 운세</div><p id="txt-today" class="card-text"></p></div>
-        
-        <p style="text-align:center; font-size:12px; color:#999; margin-top:30px;">본 분석은 도원상담소(천진암)의 로직으로 생성되었습니다.<br>더욱 정밀한 상담은 블로그를 통해 문의해주세요.</p>
+    <div class="footer">
+        본 리포트는 AI 분석 결과이므로 참고용으로 활용하시기 바랍니다.<br>
+        <strong>더 상세한 상담은 '도원상담소(천진암)' 블로그를 방문해주세요.</strong>
     </div>
 </div>
 
 <script>
-    const colMap = {"甲":"#27ae60","乙":"#27ae60","寅":"#27ae60","卯":"#27ae60","丙":"#e74c3c","丁":"#e74c3c","巳":"#e74c3c","午":"#e74c3c","戊":"#f1c40f","己":"#f1c40f","辰":"#f1c40f","戌":"#f1c40f","丑":"#f1c40f","未":"#f1c40f","庚":"#7f8c8d","辛":"#7f8c8d","申":"#7f8c8d","酉":"#7f8c8d","壬":"#2c3e50","癸":"#2c3e50","亥":"#2c3e50","子":"#2c3e50"};
+    function analyzeSaju() {
+        const birthDate = document.getElementById('birthDate').value;
+        if (!birthDate) {
+            alert('생년월일을 입력해주세요.');
+            return;
+        }
 
-    const data = {
-        "戊": { 
-            p: "무토(戊土)는 만물을 포용하는 광활한 대지이자 웅장한 태산입니다. 성품이 중후하고 신의를 소중히 여기며, 주변의 갈등을 중재하는 능력이 탁월합니다.",
-            j: "대규모 조직의 관리자, 부동산, 건설업, 금융, 교육 지도자가 적합합니다. 안정적이고 장기적인 비전이 있는 직군에서 대기만성형으로 성공합니다.",
-            l: "저축형 자산가 타입입니다. 부동산 투자에 강점이 있으며, 애정 면에서는 우직하고 믿음직한 배우자감이 됩니다.",
-            t: "2026년은 화생토(火生土)의 해로, 당신의 실력이 빛을 발하고 문서운과 명예운이 최고조에 달하는 해입니다.",
-            today: "주변의 조언이 재물로 연결되는 날입니다. 독단적인 결정보다는 전문가의 의견을 경청하면 뜻밖의 이득을 얻습니다."
-        },
-        "庚": { 
-            p: "경금(庚金)은 강직하고 결단력이 뛰어난 칼과 같습니다. 의리가 강하고 목표를 향한 추진력이 대단합니다.",
-            j: "법조인, 군경, 엔지니어, 의료인 등 전문직에서 성과를 냅니다. 과감한 결단이 필요한 경영직에도 적합합니다.",
-            l: "큰돈을 굴리는 수완이 좋습니다. 책임감이 강해 연인에게도 든든한 의리파입니다.",
-            t: "2026년은 당신이라는 원석이 제련되어 보석이 되는 해입니다. 직위가 상승하고 사회적 영향력이 확대됩니다.",
-            today: "금전운이 상승하는 날입니다. 중요한 계약이나 미팅이 있다면 오늘 추진하는 것이 유리합니다."
-        },
-        "己": { p: "섬세하고 성실하며 타인에 대한 배려가 깊은 옥토와 같습니다.", j: "교육, 상담, 정밀 행정, 디자인 분야가 좋습니다.", l: "알뜰한 실속파 부자이며 화목한 가정을 꾸리는 복이 있습니다.", t: "2026년은 대지에 햇빛이 가득한 풍년의 해로 인복과 재물이 따릅니다.", today: "마음의 평온이 찾아오는 날입니다. 가까운 지인과 담소를 나누며 에너지를 보충하세요." },
-        "辛": { p: "세련된 감각과 예리함을 지닌 보석입니다. 자존심이 강하고 깔끔한 성격입니다.", j: "IT, 디자인, 의료, 금융 정밀직이 적합합니다.", l: "가치 있는 것을 알아보는 안목이 탁월하며 화려한 연애를 즐깁니다.", t: "보석이 조명을 받아 빛나는 해입니다. 명성이 올라가고 신규 프로젝트가 성공합니다.", today: "아이디어가 샘솟는 날입니다. 생각한 것을 바로 기록해두면 큰 자산이 됩니다." },
-        "壬": { p: "지혜가 깊고 포용력이 넓은 바다와 같습니다. 임기응변에 강하고 두뇌 회전이 빠릅니다.", j: "무역, 창작, 교육, 유통, 해외 관련 사업에서 역량을 발휘합니다.", l: "유동자산 운용 능력이 좋으며 상대를 감싸주는 매력이 큽니다.", t: "바다 위에 해가 뜨는 형국입니다. 막혔던 일이 풀리고 이동운이 길하게 작용합니다.", today: "유연한 대처가 필요한 날입니다. 흐름에 몸을 맡기면 오히려 더 큰 이득을 봅니다." },
-        "癸": { p: "단비처럼 부드럽고 총명하며 공감 능력이 뛰어납니다.", j: "상담, 작가, 정보통신, 예술 분야가 최적입니다.", l: "꾸준한 수익 창출에 능하며 세심한 애정 표현으로 사랑받습니다.", t: "가뭄 끝에 비가 오고 싹이 트는 해입니다. 하반기에 큰 성취가 기다리고 있습니다.", today: "주변 사람들의 마음을 얻는 날입니다. 당신의 따뜻한 말 한마디가 행운의 열쇠가 됩니다." },
-        "甲": { p: "리더십과 추진력이 강한 거목입니다. 독립심이 강하고 늘 새로움을 추구합니다.", j: "경영자, 기획자, 건축, 교육자, 전문직이 좋습니다.", l: "사업운이 좋으며 연애에서도 주도권을 잡는 스타일입니다.", t: "나무가 빛을 받아 숲을 이루는 해입니다. 영향력이 확대되고 사회적 위치가 확고해집니다.", today: "자신 있게 일을 밀어붙이세요. 단, 주변의 시기 질투를 사지 않도록 겸손이 필요합니다." },
-        "乙": { p: "넝쿨처럼 유연하고 끈기가 강합니다. 적응력이 뛰어나 어디서든 살아남습니다.", j: "디자인, 서비스, 조경, 작가, 홍보직이 적합합니다.", l: "인맥을 통한 재운이 좋으며 사교적인 연애를 즐깁니다.", t: "꽃이 만개하여 나비가 모여드는 길운의 해입니다. 인지도와 인기가 급상승합니다.", today: "대인관계 운이 좋습니다. 새로운 만남에서 귀인을 만날 확률이 높은 하루입니다." },
-        "丙": { p: "태양처럼 열정적이고 숨김이 없는 에너자이저입니다.", j: "방송, 광고, 홍보, 정치, 교육 등 화려한 분야가 좋습니다.", l: "수입이 시원시원하며 연애도 불꽃처럼 뜨겁게 합니다.", t: "자신의 기세를 마음껏 펼치는 해입니다. 경쟁에서 승리하고 독보적인 성과를 냅니다.", today: "속전속결이 필요한 날입니다. 망설이지 말고 결정하면 결과가 따라옵니다." },
-        "丁": { p: "따뜻한 등불처럼 헌신적이고 세밀하며 분석력이 좋습니다.", j: "정밀기술, 예술, 종교, 심리상담 분야가 최적입니다.", l: "재능을 돈으로 바꾸는 재주가 좋으며 포근한 사랑을 지향합니다.", t: "작은 불씨가 화력을 얻는 해입니다. 실질적인 재산 증식과 명예가 따릅니다.", today: "예술적 감수성이 풍부해지는 날입니다. 창의적인 작업이나 취미 활동에 최적의 날입니다." }
-    };
+        // 여기에 추후 만세력 계산 로직이 정밀하게 들어갈 예정입니다.
+        // 현재는 입력된 값을 바탕으로 결과를 보여주는 구조를 완성합니다.
 
-    function runAnalysis() {
-        const dg = document.getElementById('dG').value;
-        const res = data[dg];
+        document.getElementById('characterResult').innerText = "온화하면서도 내면의 강단이 있는 성품입니다. 예술적 감수성이 풍부하며, 타인의 마음을 읽는 통찰력이 뛰어납니다. 주변 사람들에게 신뢰를 주는 듬직한 기운을 가지고 계시네요.";
         
-        // 한자 표시 업데이트
-        const sj = [
-            {l:"시주", g:document.getElementById('sG').value, z:document.getElementById('sZ').value},
-            {l:"일주", g:document.getElementById('dG').value, z:document.getElementById('dZ').value},
-            {l:"월주", g:document.getElementById('mG').value, z:document.getElementById('mZ').value},
-            {l:"년주", g:document.getElementById('yG').value, z:document.getElementById('yZ').value}
-        ];
+        document.getElementById('jobResult').innerText = "전문적인 기술이나 지식을 활용하는 분야에서 성공할 가능성이 높습니다. 재물운은 성실함을 바탕으로 서서히 쌓여가는 흐름이며, 중년 이후 안정적인 경제력을 갖추게 될 운세입니다.";
+
+        document.getElementById('result').style.display = 'block';
         
-        document.getElementById('hanzaDisplay').innerHTML = sj.map(i => `
-            <div class="hanza-item">
-                <div style="font-size:11px; color:#aaa;">${i.l}</div>
-                <div style="color:${colMap[i.g]}">${i.g}</div>
-                <div style="color:${colMap[i.z]}">${i.z}</div>
-            </div>`).join('');
-
-        // 텍스트 업데이트
-        document.getElementById('txt-p').innerText = res.p;
-        document.getElementById('txt-j').innerText = res.j;
-        document.getElementById('txt-l').innerText = res.l;
-        document.getElementById('txt-t').innerText = res.t;
-        document.getElementById('txt-today').innerText = res.today;
-
-        // 결과창 보이기
-        document.getElementById('resultView').style.display = 'block';
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        // 결과 화면으로 부드럽게 스크롤 이동
+        window.scrollTo({
+            top: document.getElementById('result').offsetTop,
+            behavior: 'smooth'
+        });
     }
 </script>
+
 </body>
 </html>
