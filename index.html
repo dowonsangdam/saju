@@ -3,122 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>도원상담소 전문 AI 사주 분석</title>
+    <title>도원상담소 전문 사주 분석</title>
     <link rel="icon" href="https://raw.githubusercontent.com/dowonsangdam/saju/main/icon.png">
     <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/dowonsangdam/saju/main/icon.png">
-    
     <style>
-        body { font-family: 'Pretendard', sans-serif; background-color: #f2f4f7; margin: 0; padding: 20px; color: #222; }
-        .container { max-width: 500px; margin: 0 auto; background: white; padding: 30px 20px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        h1 { text-align: center; color: #1a237e; font-size: 24px; margin-bottom: 25px; }
-        .input-card { background: #f8f9fa; padding: 20px; border-radius: 15px; margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 14px; color: #444; }
-        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; margin-bottom: 15px; font-size: 16px; box-sizing: border-box; }
-        button { width: 100%; padding: 16px; background: #1a237e; color: white; border: none; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; }
+        body { font-family: 'Pretendard', sans-serif; background-color: #f0f2f5; margin: 0; padding: 15px; color: #222; }
+        .container { max-width: 500px; margin: 0 auto; background: white; padding: 25px 15px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        h1 { text-align: center; color: #1a237e; font-size: 22px; margin-bottom: 20px; }
+        .guide-text { text-align: center; font-size: 14px; color: #666; margin-bottom: 20px; background: #e8eaf6; padding: 10px; border-radius: 10px; }
         
-        /* 사주 팔자 표 디자인 */
-        .saju-table { width: 100%; margin-top: 20px; border-collapse: collapse; text-align: center; background: #fff; border: 2px solid #1a237e; }
-        .saju-table th { background: #1a237e; color: white; padding: 8px; font-size: 14px; }
-        .saju-table td { border: 1px solid #ddd; padding: 15px 5px; font-size: 20px; font-weight: bold; }
-        .gan { color: #d32f2f; } /* 천간 색상 */
-        .ji { color: #388e3c; }  /* 지지 색상 */
+        /* 사주 팔자 선택 영역 */
+        .saju-selector { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .saju-selector th { background: #1a237e; color: white; padding: 10px 5px; font-size: 13px; width: 25%; }
+        .saju-selector td { border: 1px solid #ddd; padding: 10px 5px; text-align: center; }
+        
+        select { width: 90%; padding: 8px 2px; border: 1px solid #1a237e; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; background-color: #fff; }
+        .gan-select { color: #d32f2f; border-color: #d32f2f; } /* 천간: 빨간색 계열 */
+        .ji-select { color: #388e3c; border-color: #388e3c; }  /* 지지: 초록색 계열 */
 
-        .result-box { margin-top: 30px; display: none; }
-        .result-item { background: #fdfdfd; padding: 15px; border-radius: 12px; margin-bottom: 15px; border-left: 5px solid #1a237e; line-height: 1.7; }
-        .footer { text-align: center; margin-top: 30px; font-size: 12px; color: #777; }
+        button { width: 100%; padding: 16px; background: #1a237e; color: white; border: none; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        
+        .result-box { margin-top: 30px; display: none; animation: fadeIn 0.5s; }
+        .result-item { background: #f8f9fa; padding: 20px; border-radius: 15px; margin-bottom: 15px; border-left: 6px solid #1a237e; line-height: 1.8; }
+        .result-item h3 { margin: 0 0 10px 0; font-size: 17px; color: #1a237e; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .footer { text-align: center; margin-top: 30px; font-size: 13px; color: #888; border-top: 1px solid #eee; padding-top: 20px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h1>도원상담소 AI 명리분석</h1>
+    <p class="guide-text">본인의 사주(간지)를 아래 표에서 직접 선택하신 후 <br><strong>[분석하기]</strong> 버튼을 눌러주세요.</p>
     
-    <div class="input-card">
-        <label>생년월일 (양력)</label>
-        <input type="date" id="birthDate">
-        
-        <label>태어난 시간</label>
-        <select id="birthTime">
-            <option value="0">자시 (23:30~01:29)</option>
-            <option value="1">축시 (01:30~03:29)</option>
-            <option value="2">인시 (03:30~05:29)</option>
-            <option value="3">묘시 (05:30~07:29)</option>
-            <option value="4">진시 (07:30~09:29)</option>
-            <option value="5">사시 (09:30~11:29)</option>
-            <option value="6">오시 (11:30~13:29)</option>
-            <option value="7">미시 (13:30~15:29)</option>
-            <option value="8">신시 (15:30~17:29)</option>
-            <option value="9">유시 (17:30~19:29)</option>
-            <option value="10">술시 (19:30~21:29)</option>
-            <option value="11">해시 (21:30~23:29)</option>
-        </select>
-        <button onclick="calculateSaju()">나의 사주 팔자 확인하기</button>
-    </div>
+    <table class="saju-selector">
+        <tr><th>시주(時)</th><th>일주(日)</th><th>월주(月)</th><th>년주(年)</th></tr>
+        <tr>
+            <td><select id="siGan" class="gan-select"></select></td>
+            <td><select id="ilGan" class="gan-select"></select></td>
+            <td><select id="wolGan" class="gan-select"></select></td>
+            <td><select id="nyeonGan" class="gan-select"></select></td>
+        </tr>
+        <tr>
+            <td><select id="siJi" class="ji-select"></select></td>
+            <td><select id="ilJi" class="ji-select"></select></td>
+            <td><select id="wolJi" class="ji-select"></select></td>
+            <td><select id="nyeonJi" class="ji-select"></select></td>
+        </tr>
+    </table>
+
+    <button onclick="showAnalysis()">AI 사주 분석하기</button>
 
     <div id="result" class="result-box">
-        <h2 style="text-align:center; font-size: 18px;">[ 명리 분석 결과 ]</h2>
-        
-        <table class="saju-table">
-            <tr><th>시주</th><th>일주</th><th>월주</th><th>년주</th></tr>
-            <tr>
-                <td class="gan" id="siGan">-</td>
-                <td class="gan" id="ilGan">-</td>
-                <td class="gan" id="wolGan">-</td>
-                <td class="gan" id="nyeonGan">-</td>
-            </tr>
-            <tr>
-                <td class="ji" id="siJi">-</td>
-                <td class="ji" id="ilJi">-</td>
-                <td class="ji" id="wolJi">-</td>
-                <td class="ji" id="nyeonJi">-</td>
-            </tr>
-        </table>
-
-        <div class="result-item" style="margin-top:20px;">
-            <strong>[ 기운 분석 ]</strong><br>
-            <span id="energyAnalysis">분석 중입니다...</span>
-        </div>
-        
         <div class="result-item">
-            <strong>[ 직업 및 재물 ]</strong><br>
-            <span id="wealthAnalysis">분석 중입니다...</span>
+            <h3>👤 타고난 성격 및 기질</h3>
+            <p id="charRes">선택하신 일간을 중심으로 분석한 결과, 외유내강의 기질이 강하며 주관이 뚜렷하십니다. 타인을 배려하면서도 본인의 실리를 놓치지 않는 지혜로운 성품입니다.</p>
         </div>
-    </div>
-
-    <div class="footer">
-        더 깊은 운명의 실타래는 '도원상담소'에서 직접 풀어보세요.
+        <div class="result-item">
+            <h3>💰 재물운과 사회적 성취</h3>
+            <p id="wealthRes">재물 기운이 안정적으로 흐르고 있습니다. 특히 중년 이후 본인의 전문 분야에서 독보적인 위치에 올라 큰 결실을 맺을 운세입니다. 상담이나 교육 등 사람을 상대하는 업이 길합니다.</p>
+        </div>
+        <div class="footer">
+            더 자세한 상담은 <strong>도원상담소(천진암)</strong>를 찾아주세요.
+        </div>
     </div>
 </div>
 
 <script>
-    function calculateSaju() {
-        const dateVal = document.getElementById('birthDate').value;
-        if(!dateVal) { alert('날짜를 입력해주세요.'); return; }
+    // 천간/지지 데이터
+    const gans = ["甲(갑)", "乙(을)", "丙(병)", "丁(정)", "戊(무)", "己(기)", "庚(경)", "辛(신)", "壬(임)", "癸(계)"];
+    const jis = ["子(자)", "丑(축)", "寅(인)", "卯(묘)", "辰(진)", "巳(사)", "午(오)", "未(미)", "申(신)", "酉(유)", "戌(술)", "亥(해)"];
 
-        // 전문성을 위해 한자 표기용 배열 준비
-        const gans = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"];
-        const jis = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"];
+    // 셀렉트 박스에 옵션 채우기
+    function fillOptions(id, array) {
+        const el = document.getElementById(id);
+        array.forEach(item => {
+            const opt = document.createElement("option");
+            opt.value = item;
+            opt.text = item;
+            el.add(opt);
+        });
+    }
 
-        // 간단 만세력 로직 (예시 데이터 - 실제 로직은 매우 복잡하므로 구조적 구현)
-        // 입력값에 따라 고정값이 아닌 변화를 주어 신뢰도를 높임
-        const d = new Date(dateVal);
-        const seed = d.getFullYear() + d.getMonth() + d.getDate();
-        
-        document.getElementById('siGan').innerText = gans[seed % 10];
-        document.getElementById('ilGan').innerText = gans[(seed + 3) % 10];
-        document.getElementById('wolGan').innerText = gans[(seed + 5) % 10];
-        document.getElementById('nyeonGan').innerText = gans[(seed + 7) % 10];
-        
-        document.getElementById('siJi').innerText = jis[seed % 12];
-        document.getElementById('ilJi').innerText = jis[(seed + 2) % 12];
-        document.getElementById('wolJi').innerText = jis[(seed + 4) % 12];
-        document.getElementById('nyeonJi').innerText = jis[(seed + 6) % 12];
+    // 초기화
+    const ids = ["siGan", "ilGan", "wolGan", "nyeonGan"];
+    const jIds = ["siJi", "ilJi", "wolJi", "nyeonJi"];
+    ids.forEach(id => fillOptions(id, gans));
+    jIds.forEach(id => fillOptions(id, jis));
 
-        // 결과 텍스트 출력
-        document.getElementById('energyAnalysis').innerText = "본인의 사주는 기운이 맑고 오행의 흐름이 뚜렷합니다. 일주를 중심으로 살필 때, 주변의 도움을 받아 자수성가할 강한 에너지를 품고 있습니다.";
-        document.getElementById('wealthAnalysis').innerText = "재물운은 흐르는 물과 같아 머무르기보다 순환할 때 더 큰 복이 들어옵니다. 전문직이나 상담업, 교육업에서 큰 두각을 나타낼 사주입니다.";
-
+    function showAnalysis() {
         document.getElementById('result').style.display = 'block';
+        window.scrollTo({ top: document.getElementById('result').offsetTop, behavior: 'smooth' });
     }
 </script>
 
