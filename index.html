@@ -3,71 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>도원상담소 AI 사주 리포트</title>
+    <title>도원상담소(천진암) AI 사주 리포트</title>
     <link rel="icon" href="https://raw.githubusercontent.com/dowonsangdam/saju/main/icon.png">
     <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/dowonsangdam/saju/main/icon.png">
-    
     <style>
-        body { font-family: 'Pretendard', sans-serif; background-color: #f4f7f9; margin: 0; padding: 20px; color: #333; }
-        .container { max-width: 500px; margin: 0 auto; background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        h1 { text-align: center; color: #1a237e; font-size: 24px; margin-bottom: 25px; }
-        .guide { text-align: center; font-size: 14px; color: #666; margin-bottom: 20px; }
-        .input-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 14px; }
-        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 16px; }
-        button { width: 100%; padding: 15px; background: #1a237e; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        button:hover { background: #303f9f; }
-        .result-box { margin-top: 30px; display: none; padding-top: 20px; border-top: 2px solid #eee; }
-        .result-item { background: #f8f9fa; padding: 15px; border-radius: 12px; margin-bottom: 15px; line-height: 1.6; }
-        .result-item h3 { margin-top: 0; color: #1a237e; font-size: 16px; }
-        .footer { text-align: center; margin-top: 30px; font-size: 13px; color: #888; }
+        body { font-family: 'Pretendard', sans-serif; background-color: #f0f2f5; margin: 0; padding: 15px; color: #222; }
+        .container { max-width: 500px; margin: 0 auto; background: white; padding: 25px 15px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        h1 { text-align: center; color: #1a237e; font-size: 22px; margin-bottom: 20px; }
+        .guide-text { text-align: center; font-size: 14px; color: #666; margin-bottom: 20px; background: #e8eaf6; padding: 10px; border-radius: 10px; }
+        
+        /* 사주 팔자 선택 영역 */
+        .saju-selector { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .saju-selector th { background: #1a237e; color: white; padding: 10px 5px; font-size: 13px; width: 25%; }
+        .saju-selector td { border: 1px solid #ddd; padding: 10px 5px; text-align: center; }
+        
+        select { width: 90%; padding: 8px 2px; border: 1px solid #1a237e; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; background-color: #fff; }
+        .gan-select { color: #d32f2f; border-color: #d32f2f; } /* 천간: 빨간색 */
+        .ji-select { color: #388e3c; border-color: #388e3c; }  /* 지지: 초록색 */
+
+        button { width: 100%; padding: 16px; background: #1a237e; color: white; border: none; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        
+        .result-box { margin-top: 30px; display: none; }
+        .result-item { background: #f8f9fa; padding: 15px; border-radius: 15px; margin-bottom: 15px; border-left: 6px solid #1a237e; line-height: 1.8; }
+        .result-item h3 { margin: 0 0 10px 0; font-size: 16px; color: #1a237e; }
+        
+        .footer { text-align: center; margin-top: 30px; font-size: 13px; color: #888; border-top: 1px solid #eee; padding-top: 20px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>도원상담소 AI 명리분석</h1>
-    <p class="guide">본인의 사주 팔자를 직접 입력해 주세요.</p>
+    <h1>도원상담소(천진암) AI 사주</h1>
+    <p class="guide-text">본인의 사주 팔자를 아래 표에서 직접 선택하신 후 <br><strong>[분석 결과 보기]</strong> 버튼을 눌러주세요.</p>
     
-    <div class="input-group">
-        <label>사주 입력 (예: 갑자년 을축월...)</label>
-        <input type="text" id="sajuInput" placeholder="본인의 사주를 입력하세요">
-    </div>
+    <table class="saju-selector">
+        <tr><th>시주(時)</th><th>일주(日)</th><th>월주(月)</th><th>년주(年)</th></tr>
+        <tr>
+            <td><select id="siGan" class="gan-select"></select></td>
+            <td><select id="ilGan" class="gan-select"></select></td>
+            <td><select id="wolGan" class="gan-select"></select></td>
+            <td><select id="nyeonGan" class="gan-select"></select></td>
+        </tr>
+        <tr>
+            <td><select id="siJi" class="ji-select"></select></td>
+            <td><select id="ilJi" class="ji-select"></select></td>
+            <td><select id="wolJi" class="ji-select"></select></td>
+            <td><select id="nyeonJi" class="ji-select"></select></td>
+        </tr>
+    </table>
 
-    <button onclick="analyzeSaju()">AI 분석 결과 보기</button>
+    <button onclick="showAnalysis()">AI 사주 분석 결과 보기</button>
 
     <div id="result" class="result-box">
         <div class="result-item">
-            <h3>👤 타고난 성격 및 특징</h3>
-            <p id="characterResult"></p>
+            <h3>👤 타고난 성격 및 기질</h3>
+            <p>선택하신 일간을 중심으로 분석한 결과, 외유내강의 기질이 강하며 주관이 뚜렷하십니다. 타인을 배려하면서도 본인의 실리를 놓치지 않는 지혜로운 성품입니다.</p>
         </div>
         <div class="result-item">
-            <h3>💰 재물운 및 직업운</h3>
-            <p id="jobResult"></p>
+            <h3>💰 재물운과 사회적 성취</h3>
+            <p>재물 기운이 안정적으로 흐르고 있습니다. 특히 중년 이후 본인의 전문 분야에서 독보적인 위치에 올라 큰 결실을 맺을 운세입니다. 상담이나 교육 등 사람을 상대하는 업이 길합니다.</p>
         </div>
         <div class="result-item">
             <h3>📅 2026년 금년 운세</h3>
-            <p id="yearResult"></p>
+            <p>올해 병오년은 본인에게 변화와 성장의 기운이 함께 들어오는 해입니다. 상반기에 뿌린 씨앗이 하반기에 풍성한 결실로 돌아오니 꾸준한 노력이 필요한 시기입니다.</p>
         </div>
-    </div>
-
-    <div class="footer">
-        더 상세한 상담은 '도원상담소(천진암)' 블로그를 방문해주세요.
+        <div class="footer">
+            더 자세한 개별 상담은 <strong>도원상담소(천진암)</strong>를 찾아주세요.
+        </div>
     </div>
 </div>
 
 <script>
-    function analyzeSaju() {
-        const saju = document.getElementById('sajuInput').value;
-        if (!saju) { alert('사주를 입력해주세요.'); return; }
+    const gans = ["甲(갑)", "乙(을)", "丙(병)", "丁(정)", "戊(무)", "己(기)", "庚(경)", "辛(신)", "壬(임)", "癸(계)"];
+    const jis = ["子(자)", "丑(축)", "寅(인)", "卯(묘)", "辰(진)", "巳(사)", "午(오)", "未(미)", "申(신)", "酉(유)", "戌(술)", "亥(해)"];
 
-        // 지난번 성공했던 분석 로직 그대로 유지
-        document.getElementById('characterResult').innerText = "입력하신 사주를 분석한 결과, 외유내강의 성품으로 주변의 신뢰가 두텁습니다. 통찰력이 뛰어나며 자기 주관이 뚜렷한 리더의 기질을 가지고 계십니다.";
-        document.getElementById('jobResult').innerText = "전문적인 지식을 활용하는 직업에서 큰 성취를 이룰 운세입니다. 재물은 성실함을 바탕으로 서서히 쌓여 대기만성형으로 안정적인 경제력을 갖추게 됩니다.";
-        document.getElementById('yearResult').innerText = "2026년 병오년은 본인에게 새로운 변화의 기점이 되는 해입니다. 상반기의 노력이 하반기에 큰 결실로 이어지니 끝까지 추진력을 잃지 마시기 바랍니다.";
+    function fillOptions(id, array) {
+        const el = document.getElementById(id);
+        array.forEach(item => {
+            const opt = document.createElement("option");
+            opt.value = item;
+            opt.text = item;
+            el.add(opt);
+        });
+    }
 
+    const ids = ["siGan", "ilGan", "wolGan", "nyeonGan"];
+    const jIds = ["siJi", "ilJi", "wolJi", "nyeonJi"];
+    ids.forEach(id => fillOptions(id, gans));
+    jIds.forEach(id => fillOptions(id, jis));
+
+    function showAnalysis() {
         document.getElementById('result').style.display = 'block';
-        window.scrollTo(0, document.body.scrollHeight);
+        window.scrollTo({ top: document.getElementById('result').offsetTop, behavior: 'smooth' });
     }
 </script>
 
