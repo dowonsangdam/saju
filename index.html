@@ -7,7 +7,6 @@
     <link rel="icon" href="https://raw.githubusercontent.com/dowonsangdam/saju/main/icon.png">
     <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/dowonsangdam/saju/main/icon.png">
     <style>
-        /* 1. 타로 카드 느낌의 신비로운 배경 (심해 남색 + 금빛 포인트) */
         body { 
             font-family: 'Pretendard', sans-serif; 
             background: radial-gradient(circle at center, #1a237e 0%, #0d1117 100%); 
@@ -20,56 +19,31 @@
             backdrop-filter: blur(10px); border: 1px solid rgba(212, 175, 55, 0.3);
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
-        
-        /* 2. 타이틀: 황금빛 별과 로고 */
-        h1 { 
-            text-align: center; color: #d4af37; font-size: 26px; margin-bottom: 10px; 
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5); font-weight: 800;
-        }
+        h1 { text-align: center; color: #d4af37; font-size: 26px; margin-bottom: 10px; text-shadow: 0 0 10px rgba(212, 175, 55, 0.5); font-weight: 800; }
         .subtitle { text-align: center; color: #aaa; font-size: 14px; margin-bottom: 30px; }
-        
-        /* 3. 사주 선택 영역 (고급스러운 카드 느낌) */
         .saju-selector { width: 100%; border-collapse: separate; border-spacing: 5px; margin-bottom: 25px; }
         .saju-selector th { color: #d4af37; font-size: 12px; padding-bottom: 8px; font-weight: normal; }
-        
         select { 
             width: 100%; padding: 12px 2px; border: 1px solid rgba(212, 175, 55, 0.4); 
             border-radius: 12px; font-size: 17px; font-weight: bold; cursor: pointer; 
-            background: rgba(13, 17, 23, 0.8); color: #fff; text-align: center; transition: 0.3s;
+            background: rgba(13, 17, 23, 0.8); color: #fff; text-align: center;
         }
-        select:focus { border-color: #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); outline: none; }
-        .gan-select { color: #ff6b6b; } /* 천간: 부드러운 레드 */
-        .ji-select { color: #51cf66; }  /* 지지: 부드러운 그린 */
-
+        .gan-select { color: #ff6b6b; }
+        .ji-select { color: #51cf66; }
         button { 
             width: 100%; padding: 18px; background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%); 
             color: #0d1117; border: none; border-radius: 15px; font-size: 18px; font-weight: bold; 
-            cursor: pointer; transition: 0.3s; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
-            margin-top: 10px;
+            cursor: pointer; transition: 0.3s; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3); margin-top: 10px;
         }
-        button:active { transform: scale(0.98); }
-        
-        /* 4. 결과 리포트 (타로 카드 뒷면처럼 우아한 디자인) */
         .result-box { margin-top: 40px; display: none; width: 100%; }
         .result-card { 
             background: rgba(255, 255, 255, 0.08); padding: 25px; border-radius: 20px; 
             margin-bottom: 20px; border: 1px solid rgba(212, 175, 55, 0.2);
-            position: relative; overflow: hidden;
+            position: relative;
         }
-        /* 별 장식 */
-        .result-card::before {
-            content: "★"; position: absolute; top: 10px; right: 15px; 
-            color: rgba(212, 175, 55, 0.2); font-size: 20px;
-        }
-        
         .result-card h3 { margin: 0 0 15px 0; font-size: 18px; color: #d4af37; font-weight: 700; }
         .result-card p { margin: 0; line-height: 1.8; color: #ddd; font-size: 15px; word-break: keep-all; }
-        
-        .footer { 
-            text-align: center; margin-top: 40px; font-size: 13px; color: #777; 
-            border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 25px; 
-        }
-        .footer strong { color: #d4af37; }
+        .footer { text-align: center; margin-top: 40px; font-size: 13px; color: #777; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 25px; }
     </style>
 </head>
 <body>
@@ -99,19 +73,17 @@
     <div id="result" class="result-box">
         <div class="result-card">
             <h3>타고난 기질과 성품</h3>
-            <p>당신의 영혼은 깊은 통찰력과 부드러운 포용력을 품고 있습니다. 겉으로는 온화해 보이나 내면에는 흔들리지 않는 신념의 기운이 서려 있어, 삶의 파도 속에서도 중심을 잃지 않는 리더의 기질을 타고나셨습니다.</p>
+            <p id="res_char"></p>
         </div>
         <div class="result-card">
             <h3>재물과 사회적 흐름</h3>
-            <p>황금빛 기운이 땅속 깊이 뿌리를 내리고 있는 형국입니다. 서두르지 않고 성실히 덕을 쌓는다면, 중년 이후 명예와 재물이 스스로 찾아와 문을 두드리는 대기만성형의 복록을 누리게 될 것입니다.</p>
+            <p id="res_wealth"></p>
         </div>
         <div class="result-card">
-            <h3>2026년(丙午年)의 약속</h3>
-            <p>병오년의 붉은 기운이 당신의 길을 비추고 있습니다. 올해는 새로운 변화를 두려워하지 말고 과감히 발을 내디딜 때입니다. 인내의 끝에서 당신이 원하던 큰 결실이 기다리고 있을 것입니다.</p>
+            <h3>2026년(丙午年) 총운</h3>
+            <p id="res_year"></p>
         </div>
-        <div class="footer">
-            상세한 상담은 <strong>도원상담소(천진암)</strong>를 방문해 주세요.
-        </div>
+        <div class="footer">상세한 상담은 <strong>도원상담소(천진암)</strong>를 방문해 주세요.</div>
     </div>
 </div>
 
@@ -119,13 +91,25 @@
     const gans = ["甲(갑)", "乙(을)", "丙(병)", "丁(정)", "戊(무)", "己(기)", "庚(경)", "辛(신)", "壬(임)", "癸(계)"];
     const jis = ["子(자)", "丑(축)", "寅(인)", "卯(묘)", "辰(진)", "巳(사)", "午(오)", "未(미)", "申(신)", "酉(유)", "戌(술)", "亥(해)"];
 
+    // 천간별 성격/재물/운세 데이터베이스
+    const database = {
+        "甲(갑)": ["곧게 뻗은 나무처럼 자존심이 강하고 리더십이 뛰어납니다.", "큰 재물을 다루는 힘이 있으나 지출 관리도 중요합니다.", "2026년은 새로운 가지를 뻗는 해로, 명예가 높아집니다."],
+        "乙(을)": ["부드러운 화초처럼 적응력이 좋고 인내심이 강한 성품입니다.", "실속 있는 재물운을 타고나 꾸준히 부를 쌓아갑니다.", "주변의 도움으로 어려운 문제가 해결되는 길한 해입니다."],
+        "丙(병)": ["태양처럼 열정적이고 화려하며 정의로운 기운을 가졌습니다.", "재물을 모으는 속도가 빠르나 분산 투자에 유의하세요.", "강한 화기가 들어오는 해로, 건강과 조급함을 경계하세요."],
+        "丁(정)": ["등불처럼 따뜻하고 세밀하며 예의가 바른 성향입니다.", "성실함을 바탕으로 한 전문직 재물운이 매우 좋습니다.", "창의적인 아이디어가 돈으로 연결되는 성취의 해입니다."],
+        "戊(무)": ["듬직한 산처럼 믿음직스럽고 포용력이 넓은 사람입니다.", "부동산이나 저축 등 큰 규모의 재물과 인연이 깊습니다.", "안정적인 흐름 속에 내실을 기하면 대운이 찾아옵니다."],
+        "己(기)": ["비옥한 땅처럼 헌신적이고 꼼꼼하며 생활력이 강합니다.", "작은 것을 모아 큰 것을 만드는 재물 관리의 달인입니다.", "문서운이 좋아 계약이나 자격증 취득에 유리한 해입니다."],
+        "庚(경)": ["단단한 바위나 칼처럼 결단력이 있고 의리가 넘칩니다.", "한 번 잡은 기회는 절대 놓치지 않는 강한 재물운입니다.", "변화가 많은 해이나, 냉철한 판단으로 승기를 잡습니다."],
+        "辛(신)": ["정밀한 보석처럼 섬세하고 깔끔하며 자존감이 높습니다.", "기술이나 전문성으로 고부가가치를 창출하는 운세입니다.", "귀인의 도움으로 막혔던 자금 흐름이 뚫리는 해입니다."],
+        "壬(임)": ["넓은 바다처럼 지혜롭고 유연하며 창의적입니다.", "흐르는 물처럼 큰 돈을 융통하는 재주가 뛰어납니다.", "해외운이나 이동운이 강하며 새로운 도전이 길합니다."],
+        "癸(계)": ["맑은 빗물처럼 지혜롭고 사려 깊으며 통찰력이 좋습니다.", "치밀한 계획을 통해 안정적인 소득을 창출하는 운입니다.", "자신의 재능을 세상이 인정해주는 결실의 해가 됩니다."]
+    };
+
     function fillOptions(id, array) {
         const el = document.getElementById(id);
         array.forEach(item => {
             const opt = document.createElement("option");
-            opt.value = item;
-            opt.text = item;
-            el.add(opt);
+            opt.value = item; opt.text = item; el.add(opt);
         });
     }
 
@@ -133,10 +117,16 @@
     ["siJi", "ilJi", "wolJi", "nyeonJi"].forEach(id => fillOptions(id, jis));
 
     function showAnalysis() {
+        const key = document.getElementById('ilGan').value;
+        const result = database[key];
+
+        document.getElementById('res_char').innerText = result[0];
+        document.getElementById('res_wealth').innerText = result[1];
+        document.getElementById('res_year').innerText = result[2];
+
         document.getElementById('result').style.display = 'block';
         window.scrollTo({ top: document.getElementById('result').offsetTop, behavior: 'smooth' });
     }
 </script>
-
 </body>
 </html>
